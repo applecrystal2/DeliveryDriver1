@@ -7,17 +7,28 @@ public class Drift : MonoBehaviour
     [SerializeField] float steering = 3f;     //조향 속도
     [SerializeField] float maxSpeed = 10f;    //최대 속도 제한 
     [SerializeField] float driftFactor = 1.0f;//값이 낮을 수록 더 미끄러진다
+    [SerializeField] float slowAcclerationRatio = 0.5f;
+    [SerializeField] float boostAcclerationRatio = 1.5f;
     [SerializeField] ParticleSystem smokeLeft;
     [SerializeField] ParticleSystem smokeRight;
+    [SerializeField] TrailRenderer LeftTrail;
+    [SerializeField] TrailRenderer RightTrail;
 
     AudioSource audioSource;
-
     Rigidbody2D rb;
+
+    float defaultAccleration;
+    float slowAccleration;
+    float boostAccleration;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = rb.GetComponent<AudioSource>();
+
+        defaultAccleration = accleration;
+        slowAccleration = accleration * slowAcclerationRatio;
+        boostAccleration = accleration * boostAcclerationRatio;
     }
 
     // Update is called once per frame
@@ -56,5 +67,23 @@ public class Drift : MonoBehaviour
             if(smokeRight.isPlaying) smokeRight.Stop();
             if(audioSource.isPlaying) audioSource.Stop();
         }
+        LeftTrail.emitting = isDrifting;
+        RightTrail.emitting = isDrifting;
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Boost"))
+        {
+            accleration = boostAccleration;
+            Debug.Log("부스트!!!!!");
+
+            Invoke(("ResetAccleration"), 5f);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        accleration = slowAccleration;
+        Invoke(("ResetAccleration"), 2f);
     }
 }

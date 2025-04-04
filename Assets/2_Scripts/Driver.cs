@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Driver : MonoBehaviour
 {
-    bool hasChicken = false;    
+    //bool hasChicken = false;    
     [SerializeField] float turnSpeed = 20f;
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float slowSpeedRatio = 0.5f;
