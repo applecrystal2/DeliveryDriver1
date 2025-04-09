@@ -86,4 +86,9 @@ public class Drift : MonoBehaviour
         accleration = slowAccleration;
         Invoke(("ResetAccleration"), 2f);
     }
+
+    void ResetAccleration()
+    {
+        accleration = defaultAccleration;
+    }
 }
