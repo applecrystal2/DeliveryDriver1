@@ -77,14 +77,14 @@ public class Drift : MonoBehaviour
             accleration = boostAccleration;
             Debug.Log("ºÎ½ºÆ®!!!!!");
 
-            Invoke(("ResetAccleration"), 5f);
+            Invoke(("ResetAccleration"), 20f);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         accleration = slowAccleration;
-        Invoke(("ResetAccleration"), 2f);
+        Invoke(("ResetAccleration"), 5f);
     }
 
     void ResetAccleration()
